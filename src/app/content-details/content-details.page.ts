@@ -44,7 +44,7 @@ import {
   ContentMarkerRequest,
   MarkerType,
   Profile
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 
 import { Map } from '../../app/telemetryutil';
 import { ConfirmAlertComponent } from '../../app/components';
@@ -1793,7 +1793,7 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
     });
     }
   }
-  
+
   downloadAndPlayContents(content: any) {
     this.contentDownloadPlay = false
     this.mimeTypesDownloadAndPlay.forEach(mimetype => {

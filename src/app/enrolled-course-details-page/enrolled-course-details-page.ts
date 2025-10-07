@@ -11,6 +11,7 @@ import { TelemetryGeneratorService } from '../../services/telemetry-generator.se
 import { UtilityService } from '../../services/utility-service';
 import { AppHeaderService } from '../../services/app-header.service';
 import { DatePipe, Location } from '@angular/common';
+import { ContentSearchResult} from '@project-fmps/sunbird-sdk';
 
 
 import {
@@ -34,7 +35,7 @@ import {
   ServerProfileDetailsRequest, SharedPreferences, SortOrder,
   TelemetryErrorCode, TelemetryObject,
   UnenrollCourseRequest, LogLevel, ContentAccess, ContentAccessStatus, ContentMarkerRequest, MarkerType
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Observable, Subscription } from 'rxjs';
 import {
   AuditType,
@@ -58,7 +59,7 @@ import { ContentDeleteHandler } from '../../services/content/content-delete-hand
 import { LocalCourseService, ConsentPopoverActionsDelegate } from '../../services/local-course.service';
 import { EnrollCourse } from './course.interface';
 import { SbSharePopupComponent } from '../components/popups/sb-share-popup/sb-share-popup.component';
-import { share } from 'rxjs/operators';
+import {map, share } from 'rxjs/operators';
 import { SbProgressLoader } from '../../services/sb-progress-loader.service';
 import { CsGroupAddableBloc } from '@project-sunbird/client-services/blocs';
 import { CsPrimaryCategory } from '@project-sunbird/client-services/services/content';
@@ -77,7 +78,17 @@ import { FormAndFrameworkUtilService } from './../../services/formandframeworkut
 import { FilePathService } from '../../services/file-path/file.service';
 import { FilePaths } from '../../services/file-path/file';
 
+// import {ContentSearchApiHandler} from "@project-fmps/sunbird-sdk/content/handlers/import/content-search-api-handler";
+
 declare const cordova;
+// Minimal shape to avoid `as any` when reading profileConfig
+interface ActiveProfileWithServerProfile {
+  serverProfile?: {
+    framework?: {
+      profileConfig?: string[];
+    };
+  };
+}
 
 @Component({
     selector: 'app-enrolled-course-details-page',
@@ -85,7 +96,11 @@ declare const cordova;
     styleUrls: ['./enrolled-course-details-page.scss'],
     standalone: false
 })
+
 export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopoverActionsDelegate {
+
+
+
 
   /**
    * Contains content details
@@ -133,6 +148,8 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
    * To hold identifier
    */
   identifier: string;
+
+  expiryDate: string = "NA";
   /**
    * Contains child content import / download progress
    */
@@ -200,7 +217,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
   showUnenrollButton = false;
   licenseDetails;
   forumId?: string;
-
+  
 
   @ViewChild('stickyPillsRef', { static: false }) stickyPillsRef: ElementRef;
   @ViewChild(AccessDiscussionComponent, { static: false }) accessDiscussionComponent: AccessDiscussionComponent;
@@ -264,6 +281,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
     @Inject('AUTH_SERVICE') public authService: AuthService,
     @Inject('DOWNLOAD_SERVICE') private downloadService: DownloadService,
+    
     private zone: NgZone,
     private events: Events,
     private fileSizePipe: FileSizePipe,
@@ -286,6 +304,9 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     private tncUpdateHandlerService: TncUpdateHandlerService,
     private formAndFrameworkUtilService: FormAndFrameworkUtilService,
     private filePathService: FilePathService,
+    
+   
+
   ) {
     this.objRollup = new Rollup();
     this.csGroupAddableBloc = CsGroupAddableBloc.instance;
@@ -333,6 +354,8 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
    * Angular life cycle hooks
    */
   async ngOnInit() {
+    await this.fetchExpiryDateFromProfileConfig();
+    
     this.appName = await this.commonUtilService.getAppName();
     await this.subscribeUtilityEvents();
     if (this.courseCardData.batchId) {
@@ -340,6 +363,78 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     }
     await this.generateDataForDF();
   }
+  async fetchExpiryDateFromProfileConfig(): Promise<void> {
+  const cacheKey = `COURSE_EXPIRY_DATE_${this.identifier || 'unknown'}`;
+
+  // If OFFLINE → show cached value (or 'NA' if none) and stop.
+  if (!this.commonUtilService?.networkInfo?.isNetworkAvailable) {
+    try {
+      const cached = await this.preferences.getString(cacheKey).toPromise();
+      this.expiryDate = cached && cached.trim() ? cached : 'NA';
+    } catch (err) {
+      console.error('Reading cached expiry failed:', err);
+      this.expiryDate = 'NA';
+    }
+    return;
+  }
+
+  // ONLINE → fetch, show, and cache.
+  try {
+    const activeProfile = await this.profileService
+      .getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS })
+      .toPromise();
+
+    // Avoid `as any` by using the minimal interface
+    const ap = activeProfile as ActiveProfileWithServerProfile;
+    const profileConfigRaw = ap?.serverProfile?.framework?.profileConfig?.[0];
+
+    // Parse JSON with error logging (no empty catch)
+    let profileConfig: any = {};
+    try {
+      profileConfig = profileConfigRaw ? JSON.parse(profileConfigRaw) : {};
+    } catch (err) {
+      console.error('Error parsing profileConfigRaw JSON:', err);
+      profileConfig = {};
+    }
+
+    const idFmps = profileConfig?.idFmps;
+    if (!idFmps) {
+      this.expiryDate = 'NA';
+      await this.preferences.putString(cacheKey, 'NA').toPromise();
+      return;
+    }
+
+    const sr: any = await this.contentService
+      .searchContent({}, { request: { filters: { code: [idFmps] } } })
+      .toPromise();
+
+    // Readable matching & date extraction
+    const list: Array<{ childNodes?: string[]; expiry_date?: string; expiryDate?: string }> =
+      sr?.contentDataList || [];
+
+    const matchingNode =
+      list.find((c) => Array.isArray(c?.childNodes) && c.childNodes.includes?.(this.identifier));
+
+    const apiDate: string | undefined =
+    matchingNode?.expiry_date ?? matchingNode?.expiryDate;
+
+    const finalDate = (typeof apiDate === 'string' && apiDate.trim()) ? apiDate : 'NA';
+    this.expiryDate = finalDate;                                      // show value (or NA)
+    await this.preferences.putString(cacheKey, finalDate).toPromise(); // cache it
+  } catch (err) {
+    console.error('fetchExpiryDateFromProfileConfig failed:', err);
+    // Online but failed → fall back to cache (or NA)
+    try {
+      const cached = await this.preferences.getString(cacheKey).toPromise();
+      this.expiryDate = cached && cached.trim() ? cached : 'NA';
+    } catch (e) {
+      console.error('Reading cached expiry after failure failed:', e);
+      this.expiryDate = 'NA';
+    }
+  }
+}
+
+
 
   async showDeletePopup() {
     this.contentDeleteObservable = this.contentDeleteHandler.contentDeleteCompleted$.subscribe(async () => {
@@ -382,7 +477,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     });
 
     this.events.subscribe('courseToc:content-clicked', async (data) => {
-      console.log('courseToc:content-clicked', data);
+      
       if (this.course.createdBy !== this.userId) {
         if (!data.isEnrolled && !data.isBatchNotStarted) {
           await this.joinTraining();
@@ -444,7 +539,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
       userId: this.userId,
       returnFreshCourses: true
     };
-    console.log('updateEnrolledCourseData');
+    
     this.updatedCourseCardData = await this.courseService.getEnrolledCourses(fetchEnrolledCourseRequest).toPromise()
       .then((enrolledCourses) => {
 
@@ -1016,7 +1111,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
         rollUp: this.rollUpMap[value]
       });
     });
-    console.log('in enrolled course details page', folderPath);
+    
 
     return requestParams;
   }
@@ -1223,7 +1318,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
             });
         }
       });
-      console.log('courseCompletionData ', this.courseCompletionData);
+     
     });
   }
 

@@ -1,5 +1,5 @@
 import { Navigation } from '@angular/router';
-import { Content, ContentData } from '@project-sunbird/sunbird-sdk';
+import { Content, ContentData } from '@project-fmps/sunbird-sdk';
 import { PageId } from '../../services/telemetry-constants';
 
 export const mockEnrolledData: Partial<Navigation> = {
@@ -311,7 +311,7 @@ export const mockGetChildDataResponse = [
         },
         isUpdateAvailable: false,
         mimeType: 'video/mp4',
-        basePath: '/storage/emulated/0/Android/data/org.sunbird.app.staging/files/content/do_21274246255366963214046/',
+        basePath: '/storage/emulated/0/Android/data/ma.fmps.maharat.staging/files/content/do_21274246255366963214046/',
         contentType: 'resource',
         isAvailableLocally: false,
         referenceCount: 1,
@@ -367,7 +367,7 @@ export const mockGetChildDataResponse = [
         },
         isUpdateAvailable: false,
         mimeType: 'video/webm',
-        basePath: '/storage/emulated/0/Android/data/org.sunbird.app.staging/files/content/do_21274246302428364814048/',
+        basePath: '/storage/emulated/0/Android/data/ma.fmps.maharat.staging/files/content/do_21274246302428364814048/',
         contentType: 'resource',
         isAvailableLocally: false,
         referenceCount: 1,

@@ -12,7 +12,7 @@ import {
     FrameworkUtilService,
     TelemetryService,
     TelemetryGeneratorService
- } from '@project-sunbird/sunbird-sdk';
+ } from '@project-fmps/sunbird-sdk';
 import { AppGlobalService } from '../../services/app-global-service.service';
 import { CommonUtilService } from '../../services/common-util.service';
 import { AppHeaderService, FormAndFrameworkUtilService } from '../../services';
@@ -38,7 +38,7 @@ jest.mock('@capacitor/app', () => {
     return {
       ...jest.requireActual('@capacitor/app'),
         App: {
-            getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+            getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
         }
     }
 })

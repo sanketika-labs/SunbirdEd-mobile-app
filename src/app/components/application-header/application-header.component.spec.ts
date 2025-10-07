@@ -7,7 +7,7 @@ import {
     Profile, ProfileService, ProfileType,
     ServerProfile, SharedPreferences,
     ProfileSource, RootOrg
-  } from '@project-sunbird/sunbird-sdk';
+  } from '@project-fmps/sunbird-sdk';
 import { MenuController, Platform, PopoverController } from "@ionic/angular";
 import { ActivePageService, AppGlobalService, AppHeaderService, CommonUtilService, CorReleationDataType, Environment, ID, InteractSubtype, InteractType, NotificationService, PageId, TelemetryGeneratorService, UtilityService } from "../../../services";
 import { Events } from "../../../../src/util/events";
@@ -22,7 +22,7 @@ jest.mock('@capacitor/app', () => {
     return {
       ...jest.requireActual('@capacitor/app'),
         App: {
-            getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+            getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
         }
     }
 })

@@ -9,7 +9,7 @@ import { CommonUtilService } from '../../services/common-util.service';
 import { ContainerService } from '../../services/container.services';
 import { IonTabs, ToastController } from '@ionic/angular';
 import { Events } from '../../util/events';
-import { ProfileService, ProfileType, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { ProfileService, ProfileType, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { OnboardingConfigurationService } from '../../services/onboarding-configuration.service';
 
 @Component({
@@ -80,8 +80,8 @@ export class TabsPage implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.setQRStyles();
-    this.setQRTabRoot(this.tabRef.getSelected());
+    // this.setQRStyles();
+    // this.setQRTabRoot(this.tabRef.getSelected());
   }
 
   setQRStyles() {
@@ -137,7 +137,7 @@ export class TabsPage implements OnInit, AfterViewInit {
 
   async ionTabsDidChange(event: any) {
     this.selectedTab = event.tab;
-    this.setQRTabRoot(event.tab);
+    // this.setQRTabRoot(event.tab);
     if (event.tab === 'resources') {
       event.tab = PageId.LIBRARY;
       this.events.publish(EventTopics.TAB_CHANGE, event.tab);
@@ -199,7 +199,6 @@ export class TabsPage implements OnInit, AfterViewInit {
         [SwitchableTabsConfig.HOME_DISCOVER_TABS_CONFIG]: this.tabList
       }
     };
-
 
     if (!session) {
       const profileType = this.appGlobalService.guestProfileType;

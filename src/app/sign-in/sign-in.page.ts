@@ -19,7 +19,7 @@ import {
     SharedPreferences,
     NativeAppleSessionProvider,
     NativeKeycloakSessionProvider
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {Router} from '@angular/router';
 import {SbProgressLoader} from '../../services/sb-progress-loader.service';
 import {LoginNavigationHandlerService} from '../../services/login-navigation-handler.service';
@@ -90,6 +90,10 @@ export class SignInPage implements OnInit {
     async ngOnInit() {
         this.appName = await this.commonUtilService.getAppName();
         await this.login();
+        this.platform.backButton.subscribeWithPriority(10, () => {
+            navigator['app'].exitApp();
+        });
+
     }
 
     async login() {
@@ -119,7 +123,7 @@ export class SignInPage implements OnInit {
                         direction: 'right'
                     },
                     labelHtml: {
-                        contents: `<span aria-label="Forgot Password link,  Double tap to activate"  class="fgt-pwsd-lbl">Forgot Password ?</span>`,
+                        contents: `<span aria-label="Forgot Password link,  Double tap to activate"  class="fgt-pwsd-lbl"></span>`,
                     }
                 }
             }
@@ -216,7 +220,7 @@ export class SignInPage implements OnInit {
     async signInWithGoogle() {
         this.loginNavigationHandlerService.generateLoginInteractTelemetry
         (InteractType.LOGIN_INITIATE, InteractSubtype.GOOGLE, '');
-        const clientId = await this.systemSettingsService.getSystemSettings({id: SystemSettingsIds.GOOGLE_CLIENT_ID}).toPromise();
+          const clientId = await this.systemSettingsService.getSystemSettings({id: SystemSettingsIds.GOOGLE_CLIENT_ID}).toPromise();
         this.googlePlusLogin.login({
             webClientId: clientId.value
         }).then(async (result) => {

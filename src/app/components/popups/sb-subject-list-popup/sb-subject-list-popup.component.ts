@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ModalController, Platform} from '@ionic/angular';
-import {PillShape, PillsViewType, PillBorder, ShowMoreViewType, PillsMultiRow, PillSize, PillTextElipsis} from '@project-sunbird/common-consumption';
+import {PillShape, PillsViewType, PillBorder, ShowMoreViewType, PillsMultiRow, PillSize, PillTextElipsis} from '@project-fmps/common-consumption';
 import {CorReleationDataType, Environment, ImpressionType, PageId } from '../../../../services/telemetry-constants';
 import { TelemetryGeneratorService } from '../../../../services/telemetry-generator.service';
-import {CorrelationData} from '@project-sunbird/sunbird-sdk';
+import {CorrelationData} from '@project-fmps/sunbird-sdk';
 
 @Component({
     selector: 'app-sb-subject-list-popup',

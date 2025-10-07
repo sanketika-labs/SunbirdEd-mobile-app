@@ -22,7 +22,7 @@ import {
   GetSuggestedFrameworksRequest, SearchEntry,
   SearchHistoryService, SortOrder,
   GroupActivity
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Map } from '../../app/telemetryutil';
 import {
   BatchConstants,
@@ -46,7 +46,7 @@ import { SearchHistoryNamespaces } from '../../config/search-history-namespaces'
 import { featureIdMap } from '../../app/feature-id-map';
 import { EnrollmentDetailsComponent } from '../components/enrollment-details/enrollment-details.component';
 import { ContentUtil } from '../../util/content-util';
-import { LibraryCardTypes, PillBorder, PillsViewType, SelectMode } from '@project-sunbird/common-consumption';
+import { LibraryCardTypes, PillBorder, PillsViewType, SelectMode } from '@project-fmps/common-consumption';
 import { Subscription, Observable, from } from 'rxjs';
 import { switchMap, tap, map as rxjsMap, share, startWith, debounceTime } from 'rxjs/operators';
 import { SbProgressLoader } from '../../services/sb-progress-loader.service';

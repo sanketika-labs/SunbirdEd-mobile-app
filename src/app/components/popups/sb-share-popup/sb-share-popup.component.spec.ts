@@ -6,7 +6,7 @@ import {
     AndroidPermissionsService, InteractType, InteractSubtype, AppGlobalService
 } from '../../../../services';
 import { SbSharePopupComponent } from './sb-share-popup.component';
-import { ContentService } from '@project-sunbird/sunbird-sdk';
+import { ContentService } from '@project-fmps/sunbird-sdk';
 import { PopoverController, Platform, NavParams } from '@ionic/angular';
 import {
     Environment,
@@ -23,7 +23,7 @@ jest.mock('@capacitor/app', () => {
     return {
       ...jest.requireActual('@capacitor/app'),
         App: {
-            getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+            getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
         }
     }
 })

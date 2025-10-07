@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {DeviceSpecification} from '@project-sunbird/sunbird-sdk';
+import {DeviceSpecification} from '@project-fmps/sunbird-sdk';
 import {GenericAppConfig} from '../app/app.constant';
 
 declare const sbutility;
@@ -10,7 +10,7 @@ export class UtilityService {
     getBuildConfigValue(property): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             try {
-                sbutility.getBuildConfigValue('org.sunbird.app', property, (entry: string) => {
+                sbutility.getBuildConfigValue('ma.fmps.maharat', property, (entry: string) => {
                     resolve(entry);
                 }, err => {
                     // if(property) {

@@ -9,7 +9,7 @@ import { Environment, InteractSubtype } from '../../../services/telemetry-consta
 import { TelemetryGeneratorService } from '../../../services/telemetry-generator.service';
 import { ContentUtil } from '../../../util/content-util';
 import { File } from '@awesome-cordova-plugins/file/ngx';
-import { Content, CorrelationData, CourseService, InteractType, PlayerService } from '@project-sunbird/sunbird-sdk';
+import { Content, CorrelationData, CourseService, InteractType, PlayerService } from '@project-fmps/sunbird-sdk';
 import { ContentInfo } from '../content-info';
 import {UtilityService} from '../../../services/utility-service';
 import { FilePathService } from '@app/services/file-path/file.service';
@@ -112,7 +112,7 @@ export class ContentPlayerHandler {
                             this.canvasPlayerService.xmlToJSon(`file://${data.metadata.basePath}/`, 'index.ecml').then(async (json) => {
                                 data['data'] = JSON.stringify(json);
                                 await this.router.navigate([RouterLinks.PLAYER],
-                                    { state: { config: data,  course : contentInfo.course, navigateBackToContentDetails, isCourse } });      
+                                    { state: { config: data,  course : contentInfo.course, navigateBackToContentDetails, isCourse } });
                                 }).catch((error) => {
                                     console.error('error1', error);
                                 });
@@ -129,7 +129,7 @@ export class ContentPlayerHandler {
                             }
                     }).catch((err) => {
                         console.error('isFileExists error', err);
-                    
+
                     });
                 } else {
                     await this.router.navigate([RouterLinks.PLAYER],

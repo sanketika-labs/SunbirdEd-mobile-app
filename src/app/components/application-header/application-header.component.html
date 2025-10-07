@@ -71,10 +71,10 @@
         <ion-icon src="assets/imgs/notification.svg" class="tool-icon" alt="notification"/>
         <ion-badge class="badge-container" *ngIf="notificationCount.unreadCount">{{notificationCount.unreadCount}}</ion-badge>
       </ion-button>
-      <ion-button aria-label="search" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('search') >=0"
+      <!-- <ion-button aria-label="search" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('search') >=0"
         (click)="emitEvent($event, 'search');">
         <ion-icon src="./assets/imgs/ic_search.png" class="tool-icon" alt="search"/>
-      </ion-button>
+      </ion-button> -->
       <ion-button aria-label="information" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('information') >=0"
         (click)="emitEvent($event, 'information');">
         <ion-icon src="./assets/imgs/ic_info_circle.svg" class="tool-icon" alt="information"/>
@@ -146,9 +146,9 @@
               </sb-member-card>
             </div>
 
-            <div class="use-app-label sb-menu-item">
+            <!-- <div class="use-app-label sb-menu-item">
               <span>{{'USE_APP_AS' | translate: {'%s': appName} }}</span>
-            </div>
+            </div> -->
 
             <section class="managed-user-container">
 
@@ -159,10 +159,10 @@
                 </sb-member-card>
               </div>
 
-              <div class="add-manage-user mu-card" *ngIf="managedProfileList.length <= 2" (click)="addManagedUser()">
+              <!-- <div class="add-manage-user mu-card" *ngIf="managedProfileList.length <= 2" (click)="addManagedUser()">
                 <sb-member-card [title]="'ADD_USER' | translate" [initial]="'+'">
                 </sb-member-card>
-              </div>
+              </div> -->
 
               <div class="more-manage-user mu-card" *ngIf="managedProfileList.length > 2" (click)="openManagedUsers()">
                 <sb-member-card [title]="'MORE_COUNT' | translate: {'%s':managedProfileList.length-2}"
@@ -172,14 +172,14 @@
             </section>
 
           </section>
-          <div *ngIf="managedProfileList.length > 2" class="another-user-title" (click)="addManagedUser()">
+          <!-- <div *ngIf="managedProfileList.length > 2" class="another-user-title" (click)="addManagedUser()">
             <span class="add-sign">+</span> {{'ADD_ANOTHER_USER' | translate}}
-          </div>
+          </div> -->
         </ng-container>
       </section>
       <ion-list class="sb-menu-list" lines="none">
 
-        <ion-item (click)="emitSideMenuItemEvent($event, 'MY_GROUPS')">
+        <!-- <ion-item (click)="emitSideMenuItemEvent($event, 'MY_GROUPS')">
           <span class="sb-menu-icon">
             <img src="./assets/imgs/my_group.svg" class="tool-icon" aria-hidden="true" alt="my group">
           </span>
@@ -188,9 +188,9 @@
             <div class="square-badge">New</div>
             <div class="circle-badge"></div>
           </div>
-        </ion-item>
+        </ion-item> -->
 
-        <ion-item (click)="switchTheme()">
+        <!-- <ion-item (click)="switchTheme()">
           <span class="sb-menu-icon">
             <img src="./assets/imgs/Help.png" class="tool-icon sb-menu-item-switch" aria-hidden="true" alt="help">
           </span>
@@ -202,7 +202,7 @@
             <div class="square-badge">New</div>
             <div class="circle-badge"></div>
           </div>
-        </ion-item>
+        </ion-item> -->
 
         <!-- <ion-item (click)="emitSideMenuItemEvent($event, 'IMPORT')">
           <span class="sb-menu-icon">
@@ -242,12 +242,12 @@
           <span class="sb-menu-item" menuClose>{{'SETTINGS' | translate}}</span>
         </ion-item>
 
-        <ion-item (click)="emitSideMenuItemEvent($event, 'HELP')">
+        <!-- <ion-item (click)="emitSideMenuItemEvent($event, 'HELP')">
           <span class="sb-menu-icon">
             <img src="./assets/imgs/Help.png" aria-hidden="true" class="tool-icon" alt="help">
           </span>
           <span class="sb-menu-item" menuClose>{{'HELP' | translate}}</span>
-        </ion-item>
+        </ion-item> -->
 
         <ion-item (click)="emitSideMenuItemEvent($event, 'LOGIN')" *ngIf="!isLoggedIn && showLoginButton">
           <span class="sb-menu-icon">
@@ -333,7 +333,7 @@
           </span>
           <span class="sb-menu-item" menuClose>{{'MY_GROUPS' | translate}}</span>
         </ion-item> -->
-<!-- 
+<!--
         <ion-item (click)="emitSideMenuItemEvent($event, 'MLREPORTS')" *ngIf="showReports">
             <span class="sb-menu-icon">
               <img src="./assets/imgs/Reports.png" aria-hidden="true" class="tool-icon" alt="reports">
@@ -345,7 +345,7 @@
             </div>
         </ion-item> -->
 
-        <ion-item (click)="switchTabs()">
+        <!-- <ion-item (click)="switchTabs()">
           <div class="beta-info">
             <span class="sb-menu-icon">
               <img src="./assets/imgs/ic_switch.svg" aria-hidden="true" class="tool-icon sb-menu-item-switch" alt="help">
@@ -361,9 +361,9 @@
                 <div class="circle-badge"></div>
               </span></div>
           </div>
-        </ion-item>
+        </ion-item> -->
 
-        <ion-item (click)="switchMode()">
+        <!-- <ion-item (click)="switchMode()">
           <span class="sb-menu-icon dark-mode-icon">
             <img src="./assets/imgs/darkmode.svg" aria-hidden="true"  class="tool-icon sb-menu-item-switch" alt="darkmode">
           </span>
@@ -376,8 +376,8 @@
                     <div class="onoffswitch-switch"></div>
                 </ion-label>
             </div>
-      </ion-item>
-<!-- 
+      </ion-item> -->
+<!--
         <ion-item (click)="emitSideMenuItemEvent($event, 'IMPORT')" *ngIf="!platform?.is('ios')">
           <span class="sb-menu-icon">
             <img src="./assets/imgs/ic_import.png" aria-hidden="true" class="tool-icon" alt="import">
@@ -411,12 +411,12 @@
           </span>
           <span class="sb-menu-item" menuClose>{{'SETTINGS' | translate}}</span>
         </ion-item>
-        <ion-item (click)="emitSideMenuItemEvent($event, 'HELP')">
+        <!-- <ion-item (click)="emitSideMenuItemEvent($event, 'HELP')">
           <span class="sb-menu-icon">
             <img src="./assets/imgs/Help.png" aria-hidden="true" class="tool-icon" alt="help">
           </span>
           <span class="sb-menu-item" menuClose>{{'HELP' | translate}}</span>
-        </ion-item>
+        </ion-item> -->
 
         <ion-item (click)="emitSideMenuItemEvent($event, 'LOGIN')" *ngIf="!isLoggedIn">
           <span class="sb-menu-icon">

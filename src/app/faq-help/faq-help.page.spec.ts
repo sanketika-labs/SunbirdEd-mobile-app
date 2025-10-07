@@ -10,7 +10,7 @@ import {
     SharedPreferences,
     SystemSettingsService,
     FaqService    
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { TelemetryGeneratorService } from '../../services/telemetry-generator.service';
 import { CommonUtilService } from '../../services/common-util.service';
 import { AppGlobalService } from '../../services/app-global-service.service';
@@ -122,7 +122,7 @@ describe('FaqHelpPage', () => {
     describe('ngOnInit', () => {
         it('intialise view setting cureLang', () => {
             // arrange
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
             window.addEventListener = jest.fn((as, listener, sd) => listener({
                 isTrusted:true,
                 data: {

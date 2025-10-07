@@ -42,7 +42,7 @@ import { IonContent as ContentView, IonRefresher, MenuController, PopoverControl
 import { Events } from '../../util/events';
 import { TranslateService } from '@ngx-translate/core';
 import { CsPrimaryCategory } from '@project-sunbird/client-services/services/content';
-import { CourseCardGridTypes, LibraryFiltersLayout } from '@project-sunbird/common-consumption';
+import { CourseCardGridTypes, LibraryFiltersLayout } from '@project-fmps/common-consumption';
 import forEach from 'lodash/forEach';
 import has from 'lodash/has';
 import { Subscription } from 'rxjs';
@@ -54,6 +54,8 @@ import {
   ContentSearchCriteria,
   ContentService,
   CorrelationData,
+  Course,
+  CourseService,
   EventsBusEvent,
   EventsBusService,
   FrameworkCategoryCode,
@@ -67,7 +69,7 @@ import {
   SearchType,
   SharedPreferences,
   SortOrder
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { animationGrowInTopRight } from '../animations/animation-grow-in-top-right';
 import { animationShrinkOutTopRight } from '../animations/animation-shrink-out-top-right';
 import {
@@ -120,7 +122,7 @@ import { FormConstants } from '../form.constants';
 })
 export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, FrameworkSelectionActionsDelegate, OnTabViewWillEnter {
   @ViewChild('libraryRefresher', { static: false }) refresher: IonRefresher;
-
+  coursesLoading = true
   pageLoadedSuccess = false;
   storyAndWorksheets: Array<any>;
   selectedValue: Array<string> = [];
@@ -142,6 +144,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
   private networkSubscription?: Subscription;
   networkFlag: boolean;
   public imageSrcMap = new Map();
+  enrolledCourseList = [];
 
   /**
    * Flag to show latest and popular course loader
@@ -232,13 +235,15 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
   };
 
   private tutorialPopover;
-  defaultAppIcon:string = '';
+  defaultAppIcon:string = 'assets/imgs/book.png';
   userFrameworkCategories = {};
   listofCategory: any;
   requiredCategories = [];
   category1Code = '';
   category2Code = '';
   category3Code = '';
+  inProgressCourses: any[];
+  completedCourses: any[];
 
   constructor(
     @Inject('PROFILE_SERVICE') private profileService: ProfileService,
@@ -247,6 +252,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     @Inject('FRAMEWORK_SERVICE') private frameworkService: FrameworkService,
     @Inject('CONTENT_SERVICE') private contentService: ContentService,
     @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
+    @Inject('COURSE_SERVICE') private courseService: CourseService,
     private splaschreenDeeplinkActionHandlerDelegate: SplaschreenDeeplinkActionHandlerDelegate,
     private ngZone: NgZone,
     private qrScanner: SunbirdQRScanner,
@@ -332,6 +338,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     this.initNetworkDetection();
     this.appGlobalService.generateConfigInteractEvent(PageId.LIBRARY, this.isOnBoardingCardCompleted);
     await this.appNotificationService.handleNotification();
+    await this.getEnrolledCourses();
 
     this.events.subscribe(EventTopics.TAB_CHANGE, async (data: string) => {
       await this.scrollToTop();
@@ -402,6 +409,53 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     } 
     await this.getFrameworkCategoriesLabel();
     await this.getLocalContent();
+  }
+
+   
+  async getEnrolledCourses(): Promise<void> {
+    this.coursesLoading = true;
+
+    const loader = await this.commonUtilService.getLoader();
+    await loader.present();
+
+    try {
+      const userId = this.profile?.uid;
+      const option = { userId };
+
+      const res: Course[] = await this.courseService.getEnrolledCourses(option).toPromise();
+      const list = Array.isArray(res) ? res : [];
+
+      // newest first
+      this.enrolledCourseList = [...list].sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
+
+      // split into in-progress vs completed
+      this.completedCourses = this.enrolledCourseList.filter(
+        c => c.status === 2 && (c.progress ?? 0) > 0
+      );
+      this.inProgressCourses = this.enrolledCourseList.filter(
+        c => !(c.status === 2 && (c.progress ?? 0) > 0)
+      );
+    } catch (error) {
+      console.error('Error while loading enrolled courses', error);
+      this.enrolledCourseList = [];
+      this.inProgressCourses = [];
+      this.completedCourses = [];
+    } finally {
+      this.coursesLoading = false;
+      await loader.dismiss();
+    }
+  }
+
+
+  async openEnrolledCourse(course) {
+    try {
+      const content = this.enrolledCourseList.find(c =>
+        c.courseId === course.courseId && c.batch.batchId === course.batch.batchId
+      );
+      await this.navService.navigateToTrackableCollection({ content });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   /**
@@ -578,6 +632,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
   }
 
   async ionViewWillEnter() {
+    await this.getEnrolledCourses();
     this.events.subscribe('update_header', async () => {
       await this.headerService.showHeaderWithHomeButton(['search', 'download', 'notification']);
     });
@@ -612,7 +667,6 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     const utilityConfigFields = await this.formAndFrameworkUtilService.getFormFields(FormConstants.UTILITY_CONFIG);
     if (utilityConfigFields.find(field => field.code === 'experienceSwitchPopupConfig').config.isEnabled) {
       this.coachTimeout = setTimeout(async () => {
-        await this.appGlobalService.showNewTabsSwitchPopup();
        }, 2000);
     }
   }

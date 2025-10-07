@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { PreferenceKey, RouterLinks } from '../../app/app.constant';
 import { AppGlobalService } from '../../services/app-global-service.service';
-import { ProfileType, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { ProfileType, SharedPreferences } from '@project-fmps/sunbird-sdk';
 
 @Injectable()
 export class UserTypeGuard implements CanActivate {
@@ -17,8 +17,13 @@ export class UserTypeGuard implements CanActivate {
         if (isAdminUser && this.appGlobalService.isUserLoggedIn()) {
             await this.router.navigate([`/${RouterLinks.HOME_TAB}/admin`]);
         } else {
-            await this.router.navigate([`/${RouterLinks.HOME_TAB}/user`]);
+            if (this.appGlobalService.isUserLoggedIn()) {
+                await this.router.navigate([`/${RouterLinks.HOME_TAB}/user`]);
+            } else {
+                await this.router.navigate([`/${RouterLinks.SIGN_IN}`]);
+            }
         }
         return false;
     }
 }
+

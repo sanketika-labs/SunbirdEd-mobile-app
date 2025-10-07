@@ -15,7 +15,7 @@ import { Platform } from '@ionic/angular';
 import { Events } from '../../util/events';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { AuditState, CorrelationData, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { AuditState, CorrelationData, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { TagPrefixConstants } from '../../services/segmentation-tag/segmentation-tag.service';
 import { OnboardingConfigurationService } from '../../services/onboarding-configuration.service';
 
@@ -135,7 +135,7 @@ export class LanguageSettingsPage {
         if (this.previousLanguage) {
           this.translateService.use(this.previousLanguage);
         } else {
-          this.translateService.use('en');
+          this.translateService.use('ar');
         }
       }
     }

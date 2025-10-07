@@ -1,13 +1,13 @@
 import { UpgradePopoverComponent } from './upgrade-popover.component';
 import { PopoverController, NavParams } from '@ionic/angular';
 import { Environment, ImpressionSubtype, ImpressionType, InteractSubtype, PageId, TelemetryGeneratorService } from '../../../../services';
-import { InteractType } from '@project-sunbird/sunbird-sdk';
+import { InteractType } from '@project-fmps/sunbird-sdk';
 
 jest.mock('@capacitor/app', () => {
     return {
       ...jest.requireActual('@capacitor/app'),
         App: {
-            getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+            getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
         }
     }
 })
@@ -42,7 +42,7 @@ describe('UpgradePopoverComponent', () => {
                             {
                                 action: 'yes',
                                 label: 'Update Now',
-                                link: 'https://play.google.com/store/apps/details?id=org.sunbird.app&hl=en'
+                                link: 'https://play.google.com/store/apps/details?id=ma.fmps.maharat&hl=en'
                             },
                             {
                                 action: 'no',
@@ -92,7 +92,7 @@ describe('UpgradePopoverComponent', () => {
         // arrange
         upgradePopoverComponent.upgradeType.type = 'optional';
         // act
-        upgradePopoverComponent.upgradeApp('https://play.google.com/store/apps/details?id=org.sunbird.app');
+        upgradePopoverComponent.upgradeApp('https://play.google.com/store/apps/details?id=ma.fmps.maharat');
         // assert
         expect(mockPopOverController.dismiss).toHaveBeenCalled();
     });
@@ -101,7 +101,7 @@ describe('UpgradePopoverComponent', () => {
         // arrange
         upgradePopoverComponent.upgradeType.type = 'forced';
         // act
-        upgradePopoverComponent.upgradeApp('https://play.google.com/store/apps/details?id=org.sunbird.app');
+        upgradePopoverComponent.upgradeApp('https://play.google.com/store/apps/details?id=ma.fmps.maharat');
         // assert
         expect(mockPopOverController.dismiss).not.toHaveBeenCalled();
     });

@@ -7,7 +7,7 @@ import {
   NetworkError,
   HttpClientError,
   HttpServerError
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { CommonUtilService } from './common-util.service';
 import { Events } from '../util/events';
 import { AppGlobalService } from './app-global-service.service';
@@ -27,7 +27,7 @@ jest.mock('@capacitor/app', () => {
   return {
     ...jest.requireActual('@capacitor/app'),
       App: {
-          getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+          getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
       }
   }
 })

@@ -1,5 +1,5 @@
 import { AppGlobalService } from './app-global-service.service';
-import { ProfileService, AuthService, FrameworkService, SharedPreferences, ProfileType } from '@project-sunbird/sunbird-sdk';
+import { ProfileService, AuthService, FrameworkService, SharedPreferences, ProfileType } from '@project-fmps/sunbird-sdk';
 import { PopoverController } from '@ionic/angular';
 import { Events } from '../util/events';
 import { TelemetryGeneratorService } from './telemetry-generator.service';
@@ -40,7 +40,7 @@ jest.mock('@capacitor/app', () => {
     return {
       ...jest.requireActual('@capacitor/app'),
         App: {
-            getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+            getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
         }
     }
 })
@@ -72,7 +72,7 @@ describe('AppGlobalService', () => {
         putString: jest.fn(() => of(undefined))
     };
     const mockUtilityService: Partial<UtilityService> = {
-        getBuildConfigValue: jest.fn(() => Promise.resolve('org.sunbird.app'))
+        getBuildConfigValue: jest.fn(() => Promise.resolve('ma.fmps.maharat'))
     };
     window.console.error = jest.fn();
     beforeAll(() => {

@@ -6,7 +6,7 @@ import { AppHeaderService } from '../../../services/app-header.service';
 import { CommonUtilService } from '../../../services/common-util.service';
 import { TelemetryGeneratorService } from '../../../services/telemetry-generator.service';
 import { Router, NavigationExtras } from '@angular/router';
-import { TocCardType } from '@project-sunbird/common-consumption';
+import { TocCardType } from '@project-fmps/common-consumption';
 import { SbPopoverComponent } from '../../../app/components/popups/sb-popover/sb-popover.component';
 import { PopoverController, Platform } from '@ionic/angular';
 import { Events } from '../../../util/events';
@@ -21,7 +21,7 @@ import {
   EventsBusEvent, DownloadEventType, EventsBusService, ContentImportRequest, ContentService,
   ContentImportResponse, ContentImportStatus, ContentEventType, ContentImportCompleted,
   ContentUpdate, ContentImport, Rollup, AuditState, ProfileService, CourseBatchesRequest
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { EnrollCourse } from '../../../app/enrolled-course-details-page/course.interface';
 import { DatePipe, Location } from '@angular/common';
 import { ContentActionsComponent } from './../../components/content-actions/content-actions.component';

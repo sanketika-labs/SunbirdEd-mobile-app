@@ -18,9 +18,9 @@ import {
   ContentSearchCriteria,
   CorrelationData,
   SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { AggregatorPageType } from '../../../services/content/content-aggregator-namespaces';
-import { CourseCardGridTypes } from '@project-sunbird/common-consumption';
+import { CourseCardGridTypes } from '@project-fmps/common-consumption';
 import { NavigationService } from '../../../services/navigation-handler.service';
 import { SbSubjectListPopupComponent } from '../../../app/components/popups/sb-subject-list-popup/sb-subject-list-popup.component';
 import { OnTabViewWillEnter } from '../../../app/tabs/on-tab-view-will-enter';

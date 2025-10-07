@@ -11,7 +11,7 @@ import {
     GetAllProfileRequest,
     SunbirdSdk,
     TelemetryService,
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Platform, PopoverController } from '@ionic/angular';
 import { Events } from '../../util/events';
 import { NgZone } from '@angular/core';
@@ -47,8 +47,8 @@ import { EventTopics, ShareItemType, ContentFilterConfig } from '../app.constant
 import { FileTransfer } from '@awesome-cordova-plugins/file-transfer/ngx';
 import { SbProgressLoader } from '../../services/sb-progress-loader.service';
 import { LocalCourseService } from '../../services';
-import { ContentEventType, PlayerService } from '@project-sunbird/sunbird-sdk';
-import { CourseService } from '@project-sunbird/sunbird-sdk';
+import { ContentEventType, PlayerService } from '@project-fmps/sunbird-sdk';
+import { CourseService } from '@project-fmps/sunbird-sdk';
 import { CsContentType } from '@project-sunbird/client-services/services/content';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Network } from '@capacitor/network';
@@ -59,7 +59,7 @@ jest.mock('@capacitor/app', () => {
     return {
       ...jest.requireActual('@capacitor/app'),
         App: {
-            getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+            getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
         }
     }
 })
@@ -882,7 +882,7 @@ describe('ContentDetailsPage', () => {
                 present: presentFn,
                 dismiss: dismissFn,
             }));
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9})) as any
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9})) as any
             mockFormFrameworkUtilService.getFormFields = jest.fn(() => Promise.resolve([{
                 target: {
                     mimeType: [
@@ -916,7 +916,7 @@ describe('ContentDetailsPage', () => {
                 present: presentFn,
                 dismiss: dismissFn,
             }));
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9})) as any
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9})) as any
             mockFormFrameworkUtilService.getFormFields = jest.fn(() => Promise.resolve([{
                 target: {
                     mimeType: [''],
@@ -944,7 +944,7 @@ describe('ContentDetailsPage', () => {
             // arrange
             mockContentPlayerHandler.setLastPlayedContentId = jest.fn();
             const called:  { [topic: EventTopics]: boolean } = {};
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9})) as any
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9})) as any
             mockEvents.subscribe = jest.fn((topic, fn) => {
                 if (called[topic]) {
                     return;
@@ -1011,7 +1011,7 @@ describe('ContentDetailsPage', () => {
             // arrange
             mockContentPlayerHandler.setLastPlayedContentId = jest.fn();
             const called:  { [topic: EventTopics]: boolean } = {};
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9})) as any
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9})) as any
             mockEvents.subscribe = jest.fn((topic, fn) => {
                 if (called[topic]) {
                     return;
@@ -1078,7 +1078,7 @@ describe('ContentDetailsPage', () => {
             // arrange
             mockContentPlayerHandler.setLastPlayedContentId = jest.fn();
             const called: { [topic: EventTopics]: boolean } = {};
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9})) as any
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9})) as any
             mockEvents.subscribe = jest.fn((topic, fn) => {
                 if (called[topic]) {
                     return;

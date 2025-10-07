@@ -10,7 +10,7 @@ import {Location} from '@angular/common';
 import {Platform} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {AppHeaderService, UtilityService} from '../../../services';
-import {ContentService, DeviceInfo, ProfileService, SharedPreferences} from '@project-sunbird/sunbird-sdk';
+import {ContentService, DeviceInfo, ProfileService, SharedPreferences} from '@project-fmps/sunbird-sdk';
 import {of, Subscription} from 'rxjs';
 
 window['sbutility'] = {
@@ -23,7 +23,7 @@ jest.mock('@capacitor/app', () => {
     return {
       ...jest.requireActual('@capacitor/app'),
         App: {
-            getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+            getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
         }
     }
 })

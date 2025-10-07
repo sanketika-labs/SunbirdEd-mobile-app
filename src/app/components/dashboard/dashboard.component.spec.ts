@@ -6,7 +6,7 @@ import { AppHeaderService, AppGlobalService, CommonUtilService } from '../../../
 import { Platform } from '@ionic/angular';
 import { Location } from '@angular/common';
 import { of } from 'rxjs';
-import { InteractType } from '@project-sunbird/sunbird-sdk';
+import { InteractType } from '@project-fmps/sunbird-sdk';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { StoragePermissionHandlerService } from '../../../services/storage-permission/storage-permission-handler.service';
 import { FileOpener } from '@capacitor-community/file-opener';
@@ -16,7 +16,7 @@ jest.mock('@capacitor/app', () => {
     return {
       ...jest.requireActual('@capacitor/app'),
         App: {
-            getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+            getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
         }
     }
 })
@@ -86,7 +86,7 @@ describe('DashboardComponent', () => {
         it('should call exportcsv from library', (done) => {
             // arrange
             dashboardComponent.collectionName = 'some name';
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9})) as any
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9})) as any
             mockFileService.writeFile = jest.fn(() => Promise.resolve('path'));
             dashboardComponent.lib = {
                 instance: {
@@ -105,7 +105,7 @@ describe('DashboardComponent', () => {
         it('should call exportcsv from library', (done) => {
             // arrange
             dashboardComponent.collectionName = 'some name';
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9})) as any
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9})) as any
             mockFileService.writeFile = jest.fn(() => Promise.resolve('path'));
             dashboardComponent.lib = {
                 instance: {

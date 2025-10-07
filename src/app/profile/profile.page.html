@@ -27,7 +27,7 @@
             </span>
         </p>
     </div>
-    <div class="roles-container ion-text-center ion-padding-horizontal">
+    <!-- <div class="roles-container ion-text-center ion-padding-horizontal">
         <div class="MB5 ion-text-center" *ngFor="let role of roles | slice : startLimit:rolesLimit;">
             <div class="roles">
                 {{role}}
@@ -45,53 +45,12 @@
                 <ion-icon class="ML10" name="arrow-up" aria-label="show less items"></ion-icon>
             </ion-button>
         </div>
-    </div>
+    </div> -->
    <div *ngIf="profile" class="school-details text-center">
     <div *ngIf="profile?.persona || profile?.framework" class="preference-info" aria-level="2">{{ 'CONTENT_PREFERENCE' | translate }}</div>
     <div class="location-mapping-block">
-    <div *ngIf="profile?.persona?.name" class="text-center">
-        <div>
-            <span class="bolder">{{'FRMELEMNTS_LBL_PERSONA' | translate}}: </span>
-            <span>{{profile?.persona?.name}}</span>
-        </div>
-    </div>
-    <div *ngIf="profile?.subPersona && profile?.subPersona.length" class="text-center">
-        <div>
-            <span class="bolder">{{'FRMELEMNTS_LBL_SUBPERSONA' | translate}}: </span>
-            <span>{{profile?.subPersona.join(', ')}}</span>
-        </div>
-    </div>
-    <div *ngIf="userLocation?.state && userLocation?.state?.name && userLocation?.state?.name?.length">
-        <span class="bolder">{{'STATE' | translate}}: </span>
-        <span>{{userLocation.state.name}}</span>
-        <span *ngIf="!(userLocation?.state && userLocation?.state?.name && userLocation?.state?.name?.length)"
-            class="lighter">{{'ADD_STATE' | translate}}</span>
-    </div>
-    <div *ngIf="userLocation?.district && userLocation?.district?.name && userLocation?.district?.name?.length">
-        <span class="bolder">{{'DISTRICT' | translate}}: </span>
-        <span>{{userLocation.district.name}}</span>
-        <span
-            *ngIf="!(userLocation?.district && userLocation?.district?.name && userLocation?.district?.name?.length)"
-            class="lighter">{{'ADD_DISTRICT' | translate}}</span>
-    </div>
-    <div *ngIf="userLocation?.block && userLocation?.block?.name && userLocation?.block?.name?.length">
-        <span class="bolder">{{'FRMELEMNTS_LBL_BLOCK' | translate}}: </span>
-        <span>{{userLocation.block.name}}</span>
-        <span *ngIf="!(userLocation?.block && userLocation?.block?.name && userLocation?.block?.name?.length)"
-            class="lighter">{{'FRMELEMNTS_LBL_ADD_BLOCK' | translate}}</span>
-    </div>
-    <div *ngIf="userLocation?.cluster && userLocation?.cluster?.name && userLocation?.cluster?.name?.length">
-        <span class="bolder">{{'FRMELEMNTS_LBL_CLUSTER' | translate}}: </span>
-        <span>{{userLocation.cluster.name}}</span>
-        <span *ngIf="!(userLocation?.cluster && userLocation?.cluster?.name && userLocation?.cluster?.name?.length)"
-            class="lighter">{{'FRMELEMNTS_LBL_ADD_CLUSTER' | translate}}</span>
-    </div>
-    <div *ngIf="userLocation" class="location text-center">
-        <div *ngIf="userLocation?.school && userLocation?.school?.name && userLocation?.school?.name?.length">
-            <span  class="bolder">{{'FRMELEMNTS_LBL_SCHOOL' | translate}}: </span>
-            <span>{{userLocation.school.name}}</span>
-            <span *ngIf="!(userLocation?.school && userLocation?.school?.name && userLocation?.school?.name?.length)"
-                class="lighter">{{'FRMELEMNTS_LBL_ADD_SCHOOL' | translate}}</span>
+        <div *ngFor="let item of profileConfig">
+            <strong>{{ item.key }}:</strong> {{ item.value }}
         </div>
         <div class="container MT10 MB10 edit-options">
             <ion-button shape="round" aria-label="Edit Role, Block, District, State"  (click)="onEditProfileClicked()"
@@ -100,10 +59,9 @@
             </ion-button>
         </div>
     </div>
-    </div>
     <div class="framework-block" *ngIf="profile?.framework && isCategoryLoaded">
         <div *ngFor="let category of categories">
-            <div class="container" *ngIf="profile?.framework[category.code]">
+            <div class="container" *ngIf="profile?.framework[category.code] && category.label != 'Category'">
                 <span>{{category.label | translateJson}}: </span>
                 <span class="bolder">{{profile?.framework[category.code].join(', ') | aliased}} &lrm;</span>
             </div>
@@ -115,28 +73,7 @@
         </div>
     </div>
    </div>
-    <div class="self-declare-btn text-center" *ngIf="!profile?.declarations?.length && !profile?.isMinor && isCustodianOrgId">
-        <ion-button shape="round" (click)="openSelfDeclareTeacherForm('add')">
-            {{'SUBMIT_MY_DETAILS' | translate}}
-        </ion-button>
-    </div>
-    <div class="contacts" *ngIf="!profile?.managedBy && (profile?.phone || profile?.email)">
-        <div *ngIf="profile?.phone">
-            <div class="phone" (click)="editMobileNumber();">
-                <span class="icon MR10 align-middle">
-                    <ion-icon aria-hidden="true" name="call"></ion-icon>
-                </span>
-                <span class="value align-middle">+91 {{ profile?.phone }}</span>
-            </div>
-        </div>
-        <div *ngIf="!profile?.phone">
-            <div class="phone light" (click)="editMobileNumber();" tabindex="0">
-                <span class="icon MR10 align-middle">
-                    <ion-icon aria-hidden="true" name="call"></ion-icon>
-                </span>
-                <span class="value align-middle">{{'ADD_PHONE' | translate}}</span>
-            </div>
-        </div>
+    <!-- <div class="contacts" *ngIf="!profile?.managedBy && (profile?.phone || profile?.email)">
         <div *ngIf="profile?.email">
             <div class="email " (click)="editEmail();" tabindex="0">
                 <span class="icon MR10 align-middle">
@@ -174,11 +111,66 @@
                 <span class="value align-middle">{{'ADD_RECOVERY_ID' | translate}}</span>
             </div>
         </div>
-        <button type="submit" (click)="verifyUser()"
-        class="delete_button" *ngIf="isLoggedInUser && showDeleteAccountButton">
-        {{'DELETE_YOUR_ACCOUNT' | translate}}
-     </button>
-    </div>
+    </div> -->
+
+    <ion-card class="full-card">
+        <ion-card-header>
+            <ion-card-title class="Competency-info">{{'COMPETENCY_FRAMEWORKS' | translate}}</ion-card-title>
+        </ion-card-header>
+    
+        <ion-card-content> <!-- ✅ use card-content instead of ion-content -->
+            <ion-accordion-group>
+                <ion-accordion *ngFor="let fw of competencyData.competencyFrameworks; let fi = index" [value]="fi">
+                    <ion-item slot="header">
+                        <ion-label>
+                            <h2>{{ fw.name }}</h2>
+                            <p>Batch: {{ fw.batchNumber }}</p>
+                        </ion-label>
+                        <ion-badge slot="end">{{ fw.percentage }}</ion-badge>
+                    </ion-item>
+    
+                    <div slot="content" class="fw-content">
+                        <ion-accordion-group>
+                            <ion-accordion *ngFor="let lvl of fw.levels; let li = index" [value]="fi + '-' + li">
+                                <ion-item slot="header">
+                                    <ion-label>
+                                        <strong>{{ lvl.name }}</strong>
+                                        <p>{{ lvl.percentage }}</p>
+                                        <!-- <a href="javascript:void(0)" (click)="downloadTrainingCertificate(1)" class="download-link">
+                                            {{ lvl.action }}
+                                        </a> -->
+                                    </ion-label>
+                                    <ion-button
+                                        fill="clear"
+                                        size="small"
+                                        slot="end"
+                                        (click)="$event.stopPropagation(); navigateToDownlaodCertificateView(lvl.certPayload)"
+                                    >
+                                        {{ lvl.action }}
+                                    </ion-button>
+                                    <ion-progress-bar style="width:160px"
+                                        [value]="toNum(lvl.percentage)"></ion-progress-bar>
+                                </ion-item>
+    
+                                <ion-list slot="content">
+                                    <ion-item *ngFor="let c of lvl.courses">
+                                        <ion-label>
+                                            <h3>{{ c.course }}</h3>
+                                            <p>Completion: {{ c.completion }}</p>
+                                        </ion-label>
+                                        <ion-button fill="clear" size="small" (click)="navigateToDownlaodCertificateView(c.certPayload)">
+                                            {{ c.action }}
+                                        </ion-button>
+                                    </ion-item>
+                                </ion-list>
+                            </ion-accordion>
+                        </ion-accordion-group>
+                    </div>
+                </ion-accordion>
+            </ion-accordion-group>
+        </ion-card-content>
+    </ion-card>
+
 
     <div class="self-declare-teacher-details" *ngIf="isCustodianOrgId &&  profile?.declarations?.length">
         <p class="declare-info">{{'MY_DETAILS' | translate | titlecase }}</p>

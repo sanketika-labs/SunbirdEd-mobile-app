@@ -45,7 +45,7 @@
               },
               {
                 "glob": "**/*.*",
-                "input": "./node_modules/@project-sunbird/common-consumption/assets",
+                "input": "./node_modules/@project-fmps/common-consumption/assets",
                 "output": "./assets/common-consumption"
               },
               {
@@ -55,7 +55,7 @@
               },
               {
                 "glob": "**/*",
-                "input": "./node_modules/@project-sunbird/sunbird-video-player-web-component/assets",
+                "input": "./node_modules/@project-fmps/sunbird-video-player-web-component/assets",
                 "output": "/assets/"
               },
               {
@@ -80,7 +80,7 @@
               "node_modules/video.js/dist/video-js.min.css",
               "node_modules/@project-sunbird/sb-styles/assets/styles.scss",
               "node_modules/@project-sunbird/discussions-ui/assets/styles/global.scss",
-              "node_modules/@project-sunbird/sunbird-video-player-web-component/styles.css",
+              "node_modules/@project-fmps/sunbird-video-player-web-component/styles.css",
               "node_modules/videojs-http-source-selector/dist/videojs-http-source-selector.css",
               "node_modules/datatables.net-dt/css/jquery.dataTables.css",
               "node_modules/@project-sunbird/sb-themes/themes/themes-df.scss",   
@@ -99,7 +99,7 @@
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/datatables.net/js/jquery.dataTables.js",
               "node_modules/video.js/dist/video.js",
-              "node_modules/@project-sunbird/sunbird-video-player-web-component/sunbird-video-player.js",
+              "node_modules/@project-fmps/sunbird-video-player-web-component/sunbird-video-player.js",
               "node_modules/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js",
               "node_modules/videojs-http-source-selector/dist/videojs-http-source-selector.min.js",
               "node_modules/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js",

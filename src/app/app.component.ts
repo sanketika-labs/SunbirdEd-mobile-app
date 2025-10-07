@@ -32,7 +32,7 @@ import {
   Profile, ProfileService, ProfileType, SharedPreferences,
   SunbirdSdk, DebuggingService,
   SystemSettings, SystemSettingsService, TelemetryAutoSyncService, TelemetryService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { FormAndFrameworkUtilService } from '../services/formandframeworkutil.service';
 import { AppGlobalService } from '../services/app-global-service.service';
 import { CommonUtilService } from '../services/common-util.service';
@@ -525,7 +525,7 @@ export class AppComponent implements OnInit, AfterViewInit {
    * Enter all methods which should trigger during OnInit and User Sign-In.
    */
   async reloadSigninEvents() {
-    await this.checkForTncUpdate();
+    // await this.checkForTncUpdate();
   }
 
   async reloadGuestEvents() {
@@ -627,7 +627,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.translate.onLangChange.subscribe((params) => {
-      if (params.lang === 'ur') {
+      if (params.lang === 'ar') {
         document.documentElement.dir = 'rtl';
       } else {
         document.documentElement.dir = 'ltr';

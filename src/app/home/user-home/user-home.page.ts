@@ -23,7 +23,7 @@ import {
   PillsViewType,
   SelectMode,
   ShowMoreViewType
-} from '@project-sunbird/common-consumption';
+} from '@project-fmps/common-consumption';
 import { NavigationExtras, Router } from '@angular/router';
 import {
   CachedItemRequestSourceFrom,
@@ -42,7 +42,7 @@ import {
   ProfileService,
   ProfileType,
   SearchType,
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {
   AudienceFilter,
   ColorMapping,

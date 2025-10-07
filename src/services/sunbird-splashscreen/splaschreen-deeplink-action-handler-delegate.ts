@@ -41,7 +41,7 @@ import {
   Framework,
   FrameworkDetailsRequest,
   GetSuggestedFrameworksRequest
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { SplashscreenActionHandlerDelegate } from './splashscreen-action-handler-delegate';
 import { AppGlobalService } from '../app-global-service.service';
 import { TelemetryGeneratorService } from '../../services/telemetry-generator.service';
@@ -453,8 +453,8 @@ private async upgradeAppPopover(requiredVersionCode) {
     if (!selctedLangCode && !selectedLangLabel) {
       let languageDetail;
       if (!langCode) {
-        // Set the default to english if not available.
-        langCode = 'en';
+        // Set the default to arabic if not available.
+        langCode = 'ar';
       }
       const LangList = appLanguages;
       languageDetail = LangList.find(i => i.code === langCode);

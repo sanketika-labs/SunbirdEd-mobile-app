@@ -13,7 +13,7 @@ import { Observable, Observer } from 'rxjs';
 import {
     AuthService, Course, Framework, FrameworkCategoryCodesGroup, FrameworkDetailsRequest, FrameworkService,
     OAuthSession, Profile, ProfileService, ProfileSession, ProfileType, SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { GenericAppConfig, PreferenceKey, ProfileConstants } from '../app/app.constant';
 import { PermissionAsked } from './android-permissions/android-permission';
 import { Environment, ID, InteractSubtype, InteractType, PageId } from './telemetry-constants';
@@ -69,7 +69,7 @@ export class AppGlobalService implements OnDestroy {
     isGuestUser = false;
     guestProfileType: ProfileType;
     isProfileSettingsCompleted: boolean;
-    isOnBoardingCompleted = false;
+    isOnBoardingCompleted = true;
     selectedUser;
     selectedBoardMediumGrade: string;
     isPermissionAsked: PermissionAsked = {
@@ -324,6 +324,7 @@ export class AppGlobalService implements OnDestroy {
 
     private async initValues(eventParams?: EventParams) {
         this.readConfig();
+        await this.preferences.putString(PreferenceKey.IS_ONBOARDING_COMPLETED, 'true').toPromise().then();
         /* to make sure there are no duplicate calls to getSession and profile setting
          * from login flow only eventParams are received via events
          */

@@ -5,7 +5,7 @@ import {
     CommonUtilService, Environment, ImpressionType,
     PageId, TelemetryGeneratorService
 } from '../../../services';
-import { GroupService, GroupMemberRole, MimeType } from '@project-sunbird/sunbird-sdk';
+import { GroupService, GroupMemberRole, MimeType } from '@project-fmps/sunbird-sdk';
 import { AppHeaderService, CollectionService, AppGlobalService, InteractType, InteractSubtype, AndroidPermissionsService } from '../../../services';
 import { Platform } from '@ionic/angular';
 import { Location } from '@angular/common';
@@ -18,7 +18,7 @@ jest.mock('@capacitor/app', () => {
     return {
       ...jest.requireActual('@capacitor/app'),
         App: {
-            getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+            getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
         }
     }
 })
@@ -149,7 +149,7 @@ describe('ActivityDetailsPage', () => {
     describe('ngOnInit', () => {
         it('should generate impression telemetry', () => {
             mockTelemetryGeneratorService.generateImpressionTelemetry = jest.fn();
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9})) as any;
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9})) as any;
             activityDetailsPage.ngOnInit();
             expect(mockTelemetryGeneratorService.generateImpressionTelemetry).toHaveBeenCalledWith(
                 ImpressionType.VIEW,
